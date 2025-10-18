@@ -24,9 +24,10 @@ const { ytVideosSearch, ytMp3Query, ytMp4Query, ytMp3, ytMp4, instagramDl, tikto
 const app = express();
 const PORT = 3000;
 
-var { searchSpotify } = require('./database/spotify.js');
+
+
 const getInfo = require("./database/opsanime.js");
-const { SpotifySearchDL } = require("./database/spotifydl.js");
+
 
 var { getVideoInfo, getDownloadLink } = require ('./database/scrapers/ytmp4.js');
 
