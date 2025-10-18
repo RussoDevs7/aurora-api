@@ -1,0 +1,21 @@
+{
+  "name": "base-api",
+  "version": "2.4.1",
+  "description": "um base api da dark stars feita por pedrozz Mods",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pedrozz Mods",
+  "license": "ISC",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "axios": "^1.9.0",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "yt-search": "^2.10.2",
+    "ytdl-core": "^4.11.5"
+  }
+}

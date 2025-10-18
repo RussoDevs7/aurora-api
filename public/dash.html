@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home · Painel</title>
+  <style>
+    :root{
+      --bg:#060607;
+      --glass: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.08);
+      --accent: #ff3da6; /* rosa neon */
+      --accent-2: #ff6fb8;
+      --muted: #c8c8d3;
+      --card-radius: 18px;
+      --menu-width: 48vw;
+      --glass-blur: 8px;
+      font-family: Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{height:100%; margin:0; background:var(--bg); color:#eaeaff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    /* container */
+    .wrap{
+      position:relative;
+      min-height:100vh;
+      padding:28px;
+      overflow:hidden;
+    }
+
+    /* top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo à esquerda, botão à direita */
+  padding: 10px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+    .logo{
+      width:44px;height:44px;border-radius:10px; background:linear-gradient(135deg,#ff3da6,#5b2b8a);
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:white;box-shadow:0 6px 18px rgba(0,0,0,0.6);
+    }
+    .title{font-weight:700; letter-spacing:0.4px}
+    .subtitle{font-size:12px;color:var(--muted)}
+
+    /* hamburger */
+
+.logo-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff4fd8;
+  box-shadow: 0 0 10px #ff4fd8, 0 0 20px rgba(255, 0, 180, 0.5);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.hambutton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hambutton .lines span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #ff4fd8;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+    /* main content grid */
+    .grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:18px;
+      z-index:3;
+      position:relative;
+    }
+
+    /* card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--card-radius);
+      padding:18px;
+      border:1px solid var(--border);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(var(--glass-blur));
+      position:relative;
+      overflow:hidden;
+    }
+    .card h3{margin:0;font-size:14px;color:var(--accent);letter-spacing:0.6px}
+    .card p{margin:8px 0 0;color:var(--muted);font-size:14px}
+    .badge{
+      position:absolute; right:14px; top:14px; width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.4));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    /* special styles */
+    .counter{
+      display:flex;gap:6px;align-items:center;margin-top:10px;
+    }
+    .dot{
+      background: radial-gradient(circle at 30% 20%, #ff6fb8, #ff3da6);
+      width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.6)
+    }
+
+    .cta{
+      display:inline-block;margin-top:12px;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:700;text-decoration:none;
+      box-shadow: 0 8px 20px rgba(255,61,166,0.14);
+    }
+
+    /* MENU (side panel) */
+    .sidepanel{
+      position:fixed;
+      right: -110%;
+      top:0;
+      height:100%;
+      width: calc(var(--menu-width));
+      max-width:520px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-left:1px solid rgba(255,255,255,0.04);
+      box-shadow: -30px 0 60px rgba(0,0,0,0.7);
+      padding:22px;
+      z-index:60;
+      transition: right .42s cubic-bezier(.2,.9,.2,1);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .sidepanel.open{ right:0; }
+
+    .panel-top{ display:flex; gap:12px; align-items:center }
+    .avatar{
+      width:76px;height:76px;border-radius:50%;flex-shrink:0;border:3px solid rgba(255,255,255,0.06);
+      background: linear-gradient(135deg,#ff9acb,#ff3da6);
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px;
+      box-shadow:0 8px 30px rgba(255,61,166,0.12), inset 0 -8px 40px rgba(0,0,0,0.1);
+    }
+    .panel-top .meta{flex:1}
+    .blink{
+      margin-top:6px;color:var(--accent);
+      font-weight:700;
+      animation: blink 1s linear infinite;
+      font-size:13px;
+    }
+    @keyframes blink{
+      0%{opacity:1;filter:drop-shadow(0 0 10px rgba(255,61,166,0.5))}
+      50%{opacity:.25;filter:none}
+      100%{opacity:1;filter:drop-shadow(0 0 10px rgba(255,61,166,0.5))}
+    }
+
+    /* scrollable menu content */
+    .panel-list{
+      margin-top:18px;
+      overflow:auto;
+      padding-right:8px;
+      -webkit-overflow-scrolling:touch;
+    }
+    /* hide scrollbar in most browsers but make it visible on hover */
+    .panel-list::-webkit-scrollbar{width:8px}
+    .panel-list::-webkit-scrollbar-thumb{background:linear-gradient(#ff6fb8,#ff3da6);border-radius:8px}
+    .category{
+      margin-bottom:12px;
+      border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    }
+    .category button{
+      width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:0;color:white;padding:6px 2px;cursor:pointer;font-weight:700;font-size:15px;
+    }
+    .category .subs{
+      margin-top:8px; display:none; flex-direction:column; gap:8px;
+    }
+    .category .subs a{
+      display:block;padding:8px 10px;border-radius:10px;text-decoration:none;color:var(--muted);background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.02);
+      font-size:14px;
+    }
+    .category.open .subs{display:flex}
+
+    /* small helper */
+    .muted{color:var(--muted);font-size:13px}
+    .small{font-size:12px;color:#9aa0b1}
+
+
+.wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+    /* particle canvas */
+    #particle-canvas{position:fixed;left:0;top:0;pointer-events:none;width:100%;height:100%;z-index:0;mix-blend-mode:screen;opacity:0.65}
+
+    /* responsive tweaks */
+    @media (max-width:720px){
+      :root{ --menu-width: 78vw; }
+      .grid{ grid-template-columns: 1fr; }
+      .hambutton{ width:50px; height:40px; }
+    }
+
+    /* slide in small animation for cards */
+    .card { transform: translateY(6px); transition: transform .5s ease, box-shadow .3s ease; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+
+    /* drag hint */
+    .drag-hint{ display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:10px; }
+  </style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <img src="https://blackstorage.store/midia/1760226062995.jpg" class="logo-img">
+    <div>
+      <div class="title">Aurora · API</div>
+      <div class="subtitle">Bem-vindx — Bom Aproveito!</div>
+    </div>
+  </div>
+
+  <button class="hambutton" id="openMenu" aria-label="Abrir menu">
+    <div class="lines">
+      <span></span><span></span><span></span>
+    </div>
+  </button>
+</div>
+
+    <div class="grid" aria-live="polite">
+      <div class="card">
+        <h3>+3 Rotas Disponíveis 🌐</h3>
+        <p class="muted"><strong>Premiuns/Simples.</strong></p>
+        <div class="badge" title="Conexão">🔒</div>
+      </div>
+
+      <div class="card">
+        <h3>PACK DE CASES 💖</h3>
+        <p><a href="#" class="cta" onclick="alert('Download de exemplo');return false">Download BAIXAR</a></p>
+        <p class="muted" style="margin-top:12px">Senha: <strong style="color:#ff707f">CASES@AURORA</strong></p>
+      </div>
+
+      <div class="card">
+        <h3>VISITANTES DIÁRIOS</h3>
+        <div class="counter" aria-hidden="true">
+          <div class="dot">6</div><div class="dot">6</div><div class="dot">6</div><div class="dot">6</div><div class="dot">6</div>
+        </div>
+        <p class="small" style="margin-top:8px">Seja bem-vindo, aproveite!</p>
+        <div class="badge">👁️</div>
+      </div>
+
+      <div class="card">
+        <h3>GRUPO DE SUPORTE 🌐</h3>
+        <p class="muted">Acesso Liberado</p>
+        <a href="#" class="cta" style="margin-top:12px" onclick="alert('Abrir host 1')">ENTRE JÁ</a>
+      </div>
+
+      <div class="card">
+        <h3>OBERON HOSTING 🌐</h3>
+        <p class="muted">Venha conhecer</p>
+        <a href="#" class="cta" style="margin-top:12px" onclick="alert('Abrir host 2')">ENTRE JÁ</a>
+      </div>
+
+      <div class="card" style="grid-column:1/-1;text-align:center;background:linear-gradient(90deg, rgba(255,61,166,0.08), rgba(255,111,184,0.04));">
+        <h3 style="color: #ffd27f">VERIFIQUE SUA APIKEY E VÁLIDA:</h3>
+        <p class="muted">Use /verify?apikey=SEU_TOKEN</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side panel -->
+  <aside class="sidepanel" id="sidepanel" aria-hidden="true">
+    <div class="panel-top">
+      <div class="avatar" aria-hidden="true">
+        <!-- SVG placeholder initials -->
+<svg width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="50" />
+    </clipPath>
+  </defs>
+  <image 
+    href="https://blackstorage.store/midia/1760226062995.jpg" 
+    width="100" 
+    height="100" 
+    clip-path="url(#circleClip)" 
+    preserveAspectRatio="xMidYMid slice" />
+</svg>
+      </div>
+      <div class="meta">
+        <div style="font-weight:800">Aurora Api</div>
+        <div class="small muted">Desenvolvedor • RussoDevs</div>
+        <div class="blink">NOVAS ROTAS DISPONÍVEIS </div>
+      </div>
+    </div>
+
+    <div class="drag-hint">Bem Vindo(a)</div>
+
+    <div class="panel-list" id="panelList" tabindex="0" role="list">
+      <!-- category sample -->
+<!-- category sample -->
+
+<div class="category" id="cat-puxadas">
+  <button type="button" aria-expanded="false">
+    <i class="fas fa-id-card"></i> PUXADAS
+    <span class="small">▸</span>
+  </button>
+
+  <div class="subs">
+    <a href="/api/consulta/nome?apikey=SuaKey&consulta=jair%20messias%20bolsonaro">NOME</a>
+    <a href="/api/consulta/cpf?apikey=SuaKey&consulta=45317828791">CPF</a>
+    <a href="/api/consulta/telefone?apikey=SuaKey&consulta=92994846386">TELEFONE</a>
+    <a href="/api/consulta/ip?apikey=SuaKey&consulta=162.120.186.107">IP</a>
+    <a href="/api/consulta/ddd?apikey=SuaKey&consulta=11">DDD</a>
+        <a href="/api/consulta/cnpj?apikey=SuaKey&consulta=42819017000115">CNPJ</a>
+  </div>
+</div>
+
+
+<!--      <div class="category" id="cat-puxadas">
+  <button type="button" aria-expanded="false">
+  <i class="fas fa-download"></i> DOWNLOAD
+    <span class="small">▸</span>
+  </button>
+
+  <div class="subs">
+    <a href="/api/consulta/nome?apikey=SuaKey&consulta=jair%20messias%20bolsonaro">NADA AINDA.</a>
+  </div>
+</div> -->
+
+
+<div class="category" id="cat-puxadas">
+  <button type="button" aria-expanded="false">
+  <i class="fas fa-search"></i> SUPORTE
+    <span class="small">▸</span>
+  </button>
+
+  <div class="subs">
+    <a href="/suporte">SUPORTE</a>
+        <a href="/planos">LOJA</a>
+  </div>
+</div>
+
+
+
+      <div style="height:36px"></div> <!-- bottom padding -->
+    </div>
+  </aside>
+
+  <script>
+    /* ---------- PANEL OPEN/CLOSE ---------- */
+    const openBtn = document.getElementById('openMenu');
+    const side = document.getElementById('sidepanel');
+    const lines = openBtn.querySelectorAll('span');
+    openBtn.addEventListener('click', () => {
+      side.classList.toggle('open');
+      const isOpen = side.classList.contains('open');
+      side.setAttribute('aria-hidden', !isOpen);
+      // animate hamburger
+      if(isOpen){
+        lines[0].style.transform = 'translateY(8px) rotate(45deg)';
+        lines[1].style.opacity = '0';
+        lines[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+      } else {
+        lines.forEach(s=>s.style.transform='none');
+        lines.forEach(s=>s.style.opacity='1');
+      }
+    });
+
+    // close if click outside
+    document.addEventListener('click', (e)=>{
+      if(!side.classList.contains('open')) return;
+      if(!side.contains(e.target) && !openBtn.contains(e.target)){
+        side.classList.remove('open');
+        side.setAttribute('aria-hidden','true');
+        lines.forEach(s=>s.style.transform='none');
+        lines.forEach(s=>s.style.opacity='1');
+      }
+    });
+
+    /* ---------- CATEGORIES EXPAND ---------- */
+    document.querySelectorAll('.category button').forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
+        const cat = btn.closest('.category');
+        const isOpen = cat.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+        // rotate arrow
+        const arrow = btn.querySelector('.small');
+        arrow.textContent = isOpen ? '▾' : '▸';
+      });
+    });
+
+    /* ---------- NAV ACTION (opens site page) ---------- */
+    function nav(e, path){
+      e.preventDefault();
+      // for demo, we simulate navigation. In real use, set window.location.href = path
+      alert('Abrindo rota: ' + path);
+      // close menu automatically (optional)
+      // side.classList.remove('open');
+    }
+
+    /* ---------- DRAG TO SCROLL (panel-list) ---------- */
+    (function enableDragScroll(){
+      const slider = document.getElementById('panelList');
+      let isDown=false, startY, scrollTop;
+      slider.addEventListener('mousedown', (e)=>{
+        isDown=true; startY = e.pageY - slider.offsetTop; scrollTop = slider.scrollTop;
+        slider.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+      window.addEventListener('mousemove', (e)=>{
+        if(!isDown) return;
+        const y = e.pageY - slider.offsetTop;
+        const walk = (y - startY) * 1.5; // scroll speed
+        slider.scrollTop = scrollTop - walk;
+      });
+      window.addEventListener('mouseup', ()=>{ isDown=false; slider.style.cursor='auto'; });
+
+      // touch support
+      let touchStartY=0, touchScrollTop=0;
+      slider.addEventListener('touchstart', (e)=>{
+        touchStartY = e.touches[0].clientY;
+        touchScrollTop = slider.scrollTop;
+      }, {passive:true});
+      slider.addEventListener('touchmove', (e)=>{
+        const y = e.touches[0].clientY;
+        const walk = (y - touchStartY) * 1.5;
+        slider.scrollTop = touchScrollTop - walk;
+      }, {passive:true});
+    })();
+
+    /* ---------- PARTICLES (canvas) ---------- */
+    (function particles(){
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = window.innerHeight;
+      const num = 120; // quantidade de partículas
+      const particles = [];
+
+      window.addEventListener('resize', ()=>{
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
+
+      for(let i=0;i<num;i++){
+        particles.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: Math.random()*2 + 1,
+          d: Math.random()*1 + 0.3
+        });
+      }
+
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath();
+        for(let i=0;i<num;i++){
+          const p = particles[i];
+          ctx.moveTo(p.x,p.y);
+          ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+        }
+        ctx.fill();
+        update();
+      }
+
+      let angle = 0;
+      function update(){
+        angle += 0.01;
+        for(let i=0;i<num;i++){
+          const p = particles[i];
+          p.y += Math.cos(angle+p.d) + p.r/2;
+          p.x += Math.sin(angle) * 0.5;
+
+          if(p.y > h){
+            particles[i] = {x: Math.random()*w, y: 0, r: p.r, d: p.d};
+          }
+        }
+      }
+
+      (function animate(){
+        draw();
+        requestAnimationFrame(animate);
+      })();
+    })();
+  </script>
+</body>
+</html> 

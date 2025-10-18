@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon" />
+    <title>Dark Stars Api - Premium</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      :root {
+        /* Dark Theme Colors */
+        --primary-dark: #d90429;
+        --secondary-dark: #ef233c;
+        --accent-dark: #ff4d6d;
+        --dark-bg: #0f0f0f;
+        --dark-card: #1a1a1a;
+        --dark-text: #edf2f4;
+        --dark-border: #333;
+        --dark-hover: #2b2b2b;
+        
+        /* Animations */
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
+        transition: var(--transition);
+      }
+
+      /* Main Wrapper */
+      .main-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Pricing Section */
+      section.py-5 {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+        flex-grow: 1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      h2.mb-4 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-text);
+        position: relative;
+        display: inline-block;
+      }
+
+      h2.mb-4::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--primary-dark);
+        border-radius: 3px;
+      }
+
+      .text-muted {
+        color: #aaa !important;
+      }
+
+      .mb-5 {
+        margin-bottom: 3rem !important;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+      }
+
+      .justify-content-center {
+        justify-content: center;
+      }
+
+      /* Pricing Cards */
+      .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+        padding: 0 15px;
+      }
+
+      .mb-4 {
+        margin-bottom: 1.5rem !important;
+      }
+
+      .card {
+        border: none !important;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: var(--transition);
+        height: 100%;
+        position: relative;
+        background-color: var(--dark-card);
+        box-shadow: var(--shadow);
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .shadow-sm {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3) !important;
+      }
+
+      .shadow-lg {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4) !important;
+      }
+
+      .card-body {
+        padding: 2.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-text);
+        font-weight: 600;
+      }
+
+      .card-price {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-text);
+        font-weight: 700;
+      }
+
+      .fs-6 {
+        font-size: 1rem !important;
+      }
+
+      .list-unstyled {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .my-4 {
+        margin-top: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+      }
+
+      .list-unstyled li {
+        padding: 0.5rem 0;
+        color: #ccc;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .list-unstyled li::before {
+        content: "✓";
+        color: var(--primary-dark);
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+      }
+
+      .btn {
+        display: inline-block;
+        font-weight: 500;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 50px;
+        transition: var(--transition);
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn-block {
+        display: block;
+        width: 100%;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+        border-color: var(--primary-dark);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, var(--secondary-dark), var(--primary-dark));
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(239, 35, 60, 0.4);
+      }
+
+      .btn-outline-primary {
+        color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        background: transparent;
+      }
+
+      .btn-outline-primary:hover {
+        color: #fff;
+        background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+        box-shadow: 0 5px 15px rgba(239, 35, 60, 0.4);
+      }
+
+      .btn-outline-dark {
+        color: var(--dark-text);
+        border-color: var(--dark-border);
+        background: transparent;
+      }
+
+      .btn-outline-dark:hover {
+        color: #fff;
+        background: var(--dark-hover);
+        border-color: var(--dark-hover);
+      }
+
+      /* Pro Card Highlight */
+      .col-md-4:nth-child(2) .card {
+        border: 2px solid var(--primary-dark) !important;
+        position: relative;
+      }
+
+      .col-md-4:nth-child(2) .card::before {
+        content: "POPULAR";
+        position: absolute;
+        top: 15px;
+        right: -30px;
+        background: var(--primary-dark);
+        color: white;
+        padding: 5px 30px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transform: rotate(45deg);
+        z-index: 2;
+      }
+
+      /* Footer */
+      footer.footer {
+        background-color: var(--dark-card);
+        padding: 1.5rem 0;
+        border-top: 1px solid var(--dark-border);
+      }
+
+      .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+
+      .order-last {
+        order: 2;
+      }
+
+      .order-md-first {
+        order: -1;
+      }
+
+      .copyright {
+        text-align: center;
+      }
+
+      .text-sm {
+        font-size: 0.875rem;
+      }
+
+      a {
+        color: var(--primary-dark);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+      }
+
+      .terms {
+        align-items: center;
+      }
+
+      .ml-15 {
+        margin-left: 15px;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .col-md-4 {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+        
+        .col-md-4:last-child {
+          margin-top: 2rem;
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        section.py-5 {
+          padding: 3rem 0;
+        }
+        
+        .col-md-4 {
+          flex: 0 0 100%;
+          max-width: 100%;
+          margin-bottom: 2rem;
+        }
+        
+        .col-md-4:last-child {
+          margin-top: 0;
+        }
+        
+        .col-md-4:nth-child(2) .card::before {
+          right: -25px;
+          padding: 5px 25px;
+        }
+        
+        .col-md-6 {
+          flex: 0 0 100%;
+          max-width: 100%;
+          text-align: center !important;
+        }
+        
+        .terms {
+          justify-content: center !important;
+          margin-top: 1rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        h2.mb-4 {
+          font-size: 2rem;
+        }
+        
+        .card-body {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ======== main-wrapper start =========== -->
+    <main class="main-wrapper">
+
+      <!-- ========== section start ========== -->
+      <section class="py-5 bg-light">
+        <div class="container text-center">
+          <h2 class="mb-4">Escolha seu Plano</h2>
+          <p class="text-muted mb-5">Comece no plano lite e evolua conforme sua necessidade.</p>
+
+          <div class="row justify-content-center">
+
+            <!-- Plano Grátis -->
+            <div class="col-md-4 mb-4">
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">BASICO</h5>
+                  <h2 class="card-price">R$1<span class="text-muted fs-6"> / 1.000</span></h2>
+                  <ul class="list-unstyled my-4">
+                    <li>1.000 REQUEST</li>
+                    <li>Acesso Ilimitado</li>
+                    <li>Sem suporte</li>
+                  </ul>
+                  <a href="https://wa.me/558892171384/?text=Oii Russo. Quero comprar 1.000 requests" class="btn btn-outline-primary btn-block">Assinar Basico</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plano Pro -->
+            <div class="col-md-4 mb-4">
+              <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                  <h5 class="card-title">INTERMEDIARIO</h5>
+                  <h2 class="card-price">R$4<span class="text-muted fs-6"> / 5.000</span></h2>
+                  <ul class="list-unstyled my-4">
+                    <li>5.000 REQUEST</li>
+                    <li>Acesso Ilimitado</li>
+                    <li>Com Suporte</li>
+                  </ul>
+                  <a href="https://wa.me/558892171384/?text=Oii Russo. Quero comprar 5.000 requests" class="btn btn-primary btn-block">Assinar Intermediário</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plano Premium -->
+            <div class="col-md-4 mb-4">
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <h5 class="card-title">PREMIUM</h5>
+                  <h2 class="card-price">R$10<span class="text-muted fs-6"> / 11.000</span></h2>
+                  <ul class="list-unstyled my-4">
+                    <li> 11.000 REQUEST</li>
+                    <li>Com suporte</li>
+                    <li>Acesso Ilimitado</li>
+                  </ul>
+                  <a href="https://wa.me/558892171384/?text=Oii Russo. Quero comprar 11.000 requests" class="btn btn-outline-dark btn-block">Assinar Premium</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <!-- ========== section end ========== -->
+
+      <!-- ========== footer start =========== -->
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6 order-last order-md-first">
+              <div class="copyright text-center text-md-start">
+                <p class="text-sm">
+                 Base feita por
+                  <a href="https://www.youtube.com/@Pedrozz_Mods" rel="nofollow" target="_blank">
+                    Pedrozz Mods
+                  </a>
+                </p>
+              </div>
+            </div>
+            <!-- end col-->
+            <div class="col-md-6">
+              <div class="terms d-flex justify-content-center justify-content-md-end">
+                <a href="#0" class="text-sm ml-15">Dark Stars Api Todos os direitos reservados</a>
+              </div>
+            </div>
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end container -->
+      </footer>
+      <!-- ========== footer end =========== -->
+    </main>
+    <!-- ======== main-wrapper end =========== -->
+
+
+  </body>
+</html>

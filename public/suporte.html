@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<title>Suporte : Aurora Apis</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" />
+<style>
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono|Sedgwick+Ave+Display');
+:root {
+  --font-display: 'Sedgwick Ave Display';
+  --font-sans-serif: 'IBM Plex Mono';
+  --color-bg: linear-gradient(135deg, #3a0ca3 0%, #ff00cc 100%);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  width:100vw;height:100vh;
+  background:var(--color-bg);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;overflow:hidden;position:relative;
+  font-family: var(--font-sans-serif);
+}
+/* partículas */
+.particle{
+  position:absolute;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  animation: float 15s linear infinite;
+}
+@keyframes float {
+  from{transform: translateY(100vh) scale(0.5);}
+  to{transform: translateY(-10vh) scale(1);}
+}
+.container{position:relative;text-align:center;z-index:10;max-width:500px;}
+h1{
+  font-family:var(--font-display);
+  font-size:72px;
+  background:linear-gradient(to top,#ff00cc,#8e2de2);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 25px rgba(255,0,204,0.5);
+}
+p{
+  font-size:22px;
+  margin-top:20px;
+  color:#f5b3ff;
+  text-shadow:0 0 10px rgba(255,0,204,0.5);
+}
+.buttons{
+  margin-top:40px;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.buttons a{
+  display:inline-block;
+  padding:15px 35px;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff00cc,#8e2de2);
+  color:#fff;
+  font-size:20px;
+  font-weight:bold;
+  text-decoration:none;
+  transition:all .3s ease;
+  box-shadow:0 0 15px rgba(255,0,204,0.4);
+}
+.buttons a:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 25px #ff00cc;
+}
+</style>
+</head>
+<body>
+  <!-- partículas -->
+  <div class="particle" style="width:6px;height:6px;left:5%;animation-duration:12s;"></div>
+  <div class="particle" style="width:4px;height:4px;left:20%;animation-duration:18s;"></div>
+  <div class="particle" style="width:8px;height:8px;left:40%;animation-duration:20s;"></div>
+  <div class="particle" style="width:5px;height:5px;left:60%;animation-duration:14s;"></div>
+  <div class="particle" style="width:7px;height:7px;left:80%;animation-duration:16s;"></div>
+
+  <div class="container">
+    <h1>Suporte</h1>
+    <p>Se você tiver dúvidas, entre em contato ou entre no grupo.</p>
+    <div class="buttons">
+      <a href="/dash">VOLTAR</a>
+      <a href="https://chat.whatsapp.com/HvJUiX7zezD9LUsd4Qa8yr?mode=ems_copy_t">GRUPO</a>
+      <a href="https://wa.me/554792115728">SUPORTE</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora Apis</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  * {margin:0; padding:0; box-sizing:border-box;}
+  body {
+    font-family:'Poppins', sans-serif;
+    min-height:100vh;
+    background: url('https://files.catbox.moe/20wzxw.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color:#fff;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  :root {
+    --pink: #ff69b4;
+    --pink-shadow: rgba(255,105,180,0.6);
+    --card-bg: rgba(20,20,20,0.6);
+  }
+
+  /* Partículas */
+  .particles {position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+  .particle {
+    position:absolute;border-radius:50%;
+    background: var(--pink); opacity:0.6;
+    width:6px; height:6px;
+    transition: transform 0.2s;
+  }
+
+  /* Top bar */
+  .top-bar {
+    position:fixed; top:0; width:100%; padding:15px 25px;
+    background: rgba(0,0,0,0.35); backdrop-filter: blur(10px);
+    display:flex; justify-content:space-between; align-items:center;
+    z-index:100; box-shadow:0 2px 20px var(--pink-shadow);
+  }
+  .top-bar h5 {font-size:18px;color:var(--pink);font-weight:700;}
+  .menu-btn, .adm-btn {
+    background: rgba(0,0,0,0.35); color:var(--pink); border:none; padding:8px 14px; border-radius:10px; cursor:pointer;
+    box-shadow:0 0 12px var(--pink-shadow); transition: all 0.3s ease;
+  }
+  .menu-btn:hover, .adm-btn:hover { box-shadow:0 0 25px var(--pink-shadow); color:#fff; }
+
+  /* Sidebar */
+  .sidebar {
+    position: fixed; left:-280px; top:0; width:260px; height:100%;
+    background: rgba(20,20,20,0.85); backdrop-filter: blur(12px); padding-top:70px;
+    transition:left 0.3s ease; z-index:2000; border-right:1px solid var(--pink);
+  }
+  .sidebar.show { left:0; }
+  .close-btn { position:absolute; top:15px; right:15px; font-size:24px; background:none; border:none; color:var(--pink); cursor:pointer; }
+  .menu-category { padding:15px; color:var(--pink); font-weight:600; cursor:pointer; text-align:center; transition:0.3s; border-radius:8px; margin:5px; }
+  .menu-category:hover { background: rgba(255,20,147,0.1); box-shadow:0 0 10px var(--pink-shadow); }
+  .submenu { display:none; padding:0 15px; margin-bottom:10px; }
+  .submenu.show { display:block; }
+  .submenu a { display:block; color:#fff; padding:10px 0; text-decoration:none; border-bottom:1px dashed rgba(255,105,180,0.3); transition:0.3s; }
+  .submenu a:hover { color:var(--pink); }
+
+  .profile { text-align:center; margin-bottom:20px; }
+  .profile img { width:100px; height:100px; border-radius:50%; border:3px solid var(--pink); object-fit:cover; box-shadow:0 0 20px var(--pink-shadow); }
+  .profile h2 { color:var(--pink); margin-top:10px; font-size:20px; }
+  .profile p { color:#aaa; font-size:14px; }
+
+  /* Main cards */
+  main { margin-top:100px; display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:20px; max-width:1200px; width:100%; z-index:1; position:relative; }
+  .card {
+    background: var(--card-bg); backdrop-filter: blur(15px);
+    border-radius:20px; padding:20px; width:200px; height:200px;
+    box-shadow:0 0 15px var(--pink-shadow);
+    text-align:center; transition:0.3s; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  }
+  .card:hover { box-shadow:0 0 35px var(--pink-shadow); transform: translateY(-5px);}
+  .card-header .icon { font-size:36px; color:var(--pink); margin-bottom:8px; filter: drop-shadow(0 0 8px var(--pink-shadow)); }
+  .card-header h2 { font-size:18px; font-weight:700; color:var(--pink); }
+  .description { color:#eee; font-size:14px; margin-top:8px; }
+
+  .btn { background:var(--pink); color:#fff; padding:10px 20px; border:none; border-radius:10px; cursor:pointer; box-shadow:0 0 12px var(--pink-shadow); transition:0.3s; text-decoration:none; }
+  .btn:hover { box-shadow:0 0 25px var(--pink-shadow); }
+
+  .form-control { width:100%; padding:10px; margin:10px 0; background:rgba(0,0,0,0.5); border:1px solid var(--pink); border-radius:10px; color:#fff; }
+  .form-control:focus { outline:none; box-shadow:0 0 12px var(--pink-shadow); }
+
+  /* Botão flutuante suporte */
+  .chat-float-btn{
+    position:fixed; bottom:25px; right:25px; width:55px; height:55px;
+    background-color:var(--pink); color:white; border-radius:50%;
+    display:flex; justify-content:center; align-items:center;
+    font-size:24px; cursor:pointer; box-shadow:0 0 15px var(--pink);
+    animation: float-bounce 2.5s infinite; z-index:3000;
+  }
+  @keyframes float-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+
+  footer { text-align:center; margin:40px 0; color:var(--pink); font-size:14px; }
+
+  @media(max-width:600px){ main{flex-direction:column; align-items:center;} .card{width:90%; height:180px;} }
+
+</style>
+</head>
+<body>
+
+<audio id="bg-music" src="https://files.catbox.moe/x6he34.mp3" loop></audio>
+<script>
+const bgMusic = document.getElementById('bg-music');
+document.addEventListener('click', () => {
+    bgMusic.play().catch(err => console.log('Erro ao tocar música:', err));
+}, { once: true });
+</script>
+
+<!-- Partículas -->
+<div class="particles" id="particles"></div>
+
+<div class="top-bar">
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  <h5>✘ Aurora Apis : Dash ✘</h5>
+  <button class="adm-btn" onclick="pedirSenhaADM()"><i class="fas fa-crown"></i></button>
+</div>
+
+<div class="sidebar" id="sidebar">
+  <button class="close-btn" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+  <div class="profile">
+    <img src="https://raw.githubusercontent.com/nazuninha/uploads/main/fotos/1757786735237_ga5lva.jpg" alt="Perfil">
+    <h2>AURORA-API</h2>
+    <p>☆ Site Oficial - Aurora Apis ☆</p>
+  </div>
+
+<div class="menu-category" onclick="toggleSubmenu('downloads')">
+  <i class="fas fa-download"></i> DOWNLOADS
+</div>
+<div class="submenu" id="downloads">
+  <a href="/api/playaudio?query=Brocasito&apikey=SuaKey"><i class="fas fa-headphones"></i> Play Audio</a>
+  <a href="/api/playvideo?query=Brocasito&apikey=SuaKey"><i class="fas fa-video"></i> Play Video</a>
+  <a href="/api/pinsearch?query=Gato&apikey=SuaKey"><i class="fas fa-image"></i> Pinterest</a>
+  <a href="/api/spotify?url=https://open.spotify.com/track/7xPGvZaG9W7UOrCgEwbONe&apikey=SuaKey"><i class="fab fa-spotify"></i> Spotify</a>
+  <a href="/api/tiktokdl?apikey=SuaKey&url=https://vm.tiktok.com/ZMktb4CPJ/"><i class="fab fa-tiktok"></i> TikTok</a>
+</div>
+
+  <div class="menu-category" onclick="toggleSubmenu('pesquisas')"><i class="fas fa-search"></i> PESQUISAS</div>
+  <div class="submenu" id="pesquisas">
+    <a href="/api/ytsearch?query=brocasito&apikey=SuaKey">YouTube</a>
+    <a href="/api/tiktoksearch?apikey=SuaKey&query=gatinhos">Pinterest</a>
+  </div>
+
+
+  <div class="menu-category" onclick="toggleSubmenu('puxadas')"><i class="fas fa-id-card"></i> PUXADAS</div>
+  <div class="submenu" id="pesquisas">
+    <a href="/api/consulta/nome?apikey=SUAKEY&consulta=Jair%20messias%20bolsonaro">Nome</a>
+    <a href="#">Cpf</a>
+  </div>
+
+
+  <div class="menu-category" onclick="toggleSubmenu('suporte')"><i class="fas fa-headset"></i> SUPORTE</div>
+  <div class="submenu" id="suporte">
+    <a href="/suporte">WhatsApp</a>
+    <a href="/planos">Loja</a>
+  </div>
+</div>
+
+<main>
+  <div class="card">
+    <div class="card-header"><i class="fas fa-network-wired icon"></i><h2>Seu IP</h2></div>
+    <p class="description" id="ip-address">Carregando...</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><i class="fas fa-key icon"></i><h2>Comprar Chave</h2></div>
+    <a class="btn" href="/planos">Ir para Loja</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><i class="fas fa-shield-alt icon"></i><h2>Verificar Key</h2></div>
+    <form id="key-form">
+      <input class="form-control" type="text" name="apikey" placeholder="Insira sua chave" required />
+      <button type="submit" class="btn">Verificar</button>
+    </form>
+    <p id="api-status" class="description"></p>
+  </div>
+</main>
+
+<!-- Botão flutuante -->
+<div class="chat-float-btn" onclick="abrirChat()"><i class="fas fa-comment-dots"></<i class="fas fa-comment-dots"></i></div>
+
+<footer>
+  <p>© 2025 ✯ۣۜAurora Apis - Todos os direitos reservadosۣۜ✯</p>
+</footer>
+
+<script>
+  // Menu lateral
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('show');
+  }
+
+  function toggleSubmenu(id) {
+    const submenu = document.getElementById(id);
+    submenu.classList.toggle('show');
+  }
+
+  // ADM
+  function pedirSenhaADM() {
+    const senhaCorreta = "2011";
+    const senha = prompt("Digite a senha de administrador:");
+    if (senha === senhaCorreta) {
+      window.location.href = "/adm.html";
+    } else if (senha !== null) {
+      alert("Senha incorreta!");
+    }
+  }
+
+  // Verificar API key
+  document.getElementById('key-form').addEventListener('submit', function(event){
+    event.preventDefault();
+    const apikey = event.target.apikey.value.trim();
+    const apiStatus = document.getElementById('api-status');
+    apiStatus.style.color = '#ff69b4';
+    apiStatus.textContent = 'Verificando...';
+    fetch(`/api/keyerrada?apikey=${apikey}`)
+      .then(res => res.json())
+      .then(data => {
+        apiStatus.textContent = data.key || 'Chave inválida.';
+      })
+      .catch(() => {
+        apiStatus.style.color = '#ff5555';
+        apiStatus.textContent = 'Erro ao verificar. Tente novamente.';
+      });
+  });
+
+  // Puxar IP
+  window.onload = function(){
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('ip-address').innerText = data.ip;
+      });
+
+    // Criar partículas
+    const particlesContainer = document.getElementById('particles');
+    const particles = [];
+    for(let i=0;i<60;i++){
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      p.style.top = Math.random()*100+'%';
+      p.style.left = Math.random()*100+'%';
+      p.style.width = p.style.height = (Math.random()*6+4)+'px';
+      p.style.animationDuration = (Math.random()*10+5)+'s';
+      particlesContainer.appendChild(p);
+      particles.push(p);
+    }
+
+    // Partículas seguem o mouse
+    document.addEventListener('mousemove', e => {
+      particles.forEach(p => {
+        const rect = p.getBoundingClientRect();
+        const dx = e.clientX - rect.left - p.offsetWidth/2;
+        const dy = e.clientY - rect.top - p.offsetHeight/2;
+        p.style.transform = `translate(${dx*0.02}px, ${dy*0.02}px)`;
+      });
+    });
+  };
+
+  // Botão flutuante suporte
+  function abrirChat() {
+    window.open('/suporte', '_blank');
+  }
+
+</script>
+
+</body>
+</html>
