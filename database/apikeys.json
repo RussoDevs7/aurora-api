@@ -1,5 +1,9 @@
 {
   "keyfree": {
     "request": 300
+  },
+  
+  "frostmodiz": {
+    "request": 1000
   }
 }
